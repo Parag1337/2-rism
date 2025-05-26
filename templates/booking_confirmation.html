@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation | 2rism</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" media="screen and (max-width:768px)" href="/css/mobile.css">
+    
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <style>
+        .confirmation-container {
+            max-width: 800px;
+            margin: 5rem auto;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .confirmation-title {
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-subtitle {
+            font-size: 1.8rem;
+            color: #666;
+        }
+        
+        .booking-details {
+            background-color: #f6f4ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .booking-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1.6rem;
+        }
+        
+        .booking-detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .next-steps {
+            margin-top: 3rem;
+        }
+        
+        .next-steps h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .next-steps ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+        }
+        
+        .next-steps li {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        
+        .button {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 0 1rem;
+        }
+        
+        .primary-button {
+            background-color: #7b61ff;
+            color: white;
+            border: none;
+        }
+        
+        .primary-button:hover {
+            background-color: #6550d3;
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            border: 1px solid #7b61ff;
+            color: #7b61ff;
+        }
+        
+        .secondary-button:hover {
+            background-color: #f6f4ff;
+        }
+        
+        .booking-reference {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #7b61ff;
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f6f4ff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" style="background-color: #7b61ff; padding: 2rem 0; margin-bottom: 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo/logo.svg" alt="2rism"></a>
+            </div>
+            <nav>
+                <a href="/" style="color: white; margin-left: 2rem; font-size: 1.6rem;">Return to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="confirmation-container">
+        <div class="confirmation-header">
+            <div class="confirmation-icon">
+                <i class="uil uil-check-circle"></i>
+            </div>
+            <h1 class="confirmation-title">Booking Confirmed!</h1>
+            <p class="confirmation-subtitle">Your flight has been successfully booked.</p>
+        </div>
+        
+        <div class="booking-reference">
+            Booking Reference: {{ flight_no }}-{{ "".join(date.split("-")) }}-{{ "".join(guests.split()) }}
+        </div>
+        
+        <div class="booking-details">
+            <div class="booking-detail-row">
+                <span class="detail-label">Flight Number:</span>
+                <span class="detail-value">{{ flight_no }}</span>
+            </div>
+            <div class="booking-detail-row">
+                <span class="detail-label">From:</span>
+                <span class="detail-value">{{ departure }}</span>
+            </div>
+            <div class="booking-detail-row">
+                <span class="detail-label">To:</span>
+                <span class="detail-value">{{ destination }}</span>
+            </div>
+            <div class="booking-detail-row">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value">{{ date }}</span>
+            </div>
+            <div class="booking-detail-row">
+                <span class="detail-label">Passengers:</span>
+                <span class="detail-value">{{ guests }}</span>
+            </div>
+        </div>
+        
+        <div class="next-steps">
+            <h3>Next Steps:</h3>
+            <ul>
+                <li>A confirmation email has been sent to your registered email address.</li>
+                <li>You can check in online 24 hours before your departure.</li>
+                <li>Please arrive at the airport at least 2 hours before the scheduled departure.</li>
+                <li>Don't forget to bring a valid ID for all passengers.</li>
+            </ul>
+        </div>
+        
+        <div class="buttons">
+            <a href="/" class="button secondary-button">Back to Home</a>
+            <a href="#" class="button primary-button">Manage Booking</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #f9f9f9; padding: 3rem 0; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <img src="/Imgs/Logo/logoblack.svg" alt="2rism">
+            <p style="font-size: 1.4rem; margin-top: 1rem;">
+                &copy; 2023 2rism. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Flights Available | 2rism</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" media="screen and (max-width:768px)" href="/css/mobile.css">
+    
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <style>
+        .no-results-container {
+            max-width: 800px;
+            margin: 5rem auto;
+            padding: 3rem;
+            text-align: center;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-results-icon {
+            font-size: 6rem;
+            color: #7b61ff;
+            margin-bottom: 2rem;
+        }
+        
+        .no-results-title {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .no-results-message {
+            font-size: 1.8rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        
+        .search-details {
+            background-color: #f6f4ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            display: inline-block;
+            text-align: left;
+        }
+        
+        .search-details p {
+            font-size: 1.6rem;
+            margin: 0.5rem 0;
+        }
+        
+        .back-button {
+            background-color: #7b61ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1.2rem 3rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-button:hover {
+            background-color: #6550d3;
+        }
+        
+        .suggestions {
+            margin-top: 3rem;
+        }
+        
+        .suggestions h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .suggestion-item {
+            font-size: 1.6rem;
+            margin: 0.8rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" style="background-color: #7b61ff; padding: 2rem 0; margin-bottom: 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo/logo.svg" alt="2rism"></a>
+            </div>
+            <nav>
+                <a href="/" style="color: white; margin-left: 2rem; font-size: 1.6rem;">Return to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="no-results-container">
+        <div class="no-results-icon">
+            <i class="uil uil-plane"></i>
+        </div>
+        <h1 class="no-results-title">No Flights Available</h1>
+        <p class="no-results-message">
+            We couldn't find any flights matching your search criteria at this time.
+        </p>
+        
+        <div class="search-details">
+            <p><strong>From:</strong> {{ departure }}</p>
+            <p><strong>To:</strong> {{ destination }}</p>
+            <p><strong>Date:</strong> {{ date }}</p>
+        </div>
+        
+        <a href="/" class="back-button">Try a New Search</a>
+        
+        <div class="suggestions">
+            <h3>Suggestions:</h3>
+            <p class="suggestion-item">• Try different departure or arrival locations</p>
+            <p class="suggestion-item">• Check different travel dates</p>
+            <p class="suggestion-item">• Consider connecting flights</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #f9f9f9; padding: 3rem 0; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <img src="/Imgs/Logo/logoblack.svg" alt="2rism">
+            <p style="font-size: 1.4rem; margin-top: 1rem;">
+                &copy; 2023 2rism. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

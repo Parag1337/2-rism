@@ -1,0 +1,327 @@
+{
+  "destinations": [
+    {
+      "name": "Paris",
+      "flights": [
+        {
+          "flight_no": "AF101",
+          "departure": "Mumbai",
+          "arrival_time": "10:30 AM",
+          "price": "$450"
+        },
+        {
+          "flight_no": "BA204",
+          "departure": "Delhi",
+          "arrival_time": "11:45 AM",
+          "price": "$480"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Hotel Paris Inn",
+          "rating": 4.3,
+          "price_per_night": "$120"
+        },
+        {
+          "hotel_name": "Eiffel Stay",
+          "rating": 4.7,
+          "price_per_night": "$200"
+        }
+      ]
+    },
+    {
+      "name": "Tokyo",
+      "flights": [
+        {
+          "flight_no": "JL300",
+          "departure": "Chennai",
+          "arrival_time": "9:15 PM",
+          "price": "$700"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Tokyo Tower Hotel",
+          "rating": 4.5,
+          "price_per_night": "$150"
+        },
+        {
+          "hotel_name": "Shinjuku Central",
+          "rating": 4.2,
+          "price_per_night": "$100"
+        }
+      ]
+    },
+    {
+      "name": "New York",
+      "flights": [
+        {
+          "flight_no": "AA500",
+          "departure": "Mumbai",
+          "arrival_time": "7:00 AM",
+          "price": "$650"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Manhattan Suites",
+          "rating": 4.6,
+          "price_per_night": "$180"
+        },
+        {
+          "hotel_name": "Central Park Lodge",
+          "rating": 4.4,
+          "price_per_night": "$210"
+        }
+      ]
+    },
+    {
+      "name": "London",
+      "flights": [
+        {
+          "flight_no": "BA150",
+          "departure": "Delhi",
+          "arrival_time": "8:20 AM",
+          "price": "$550"
+        },
+        {
+          "flight_no": "VS300",
+          "departure": "Mumbai",
+          "arrival_time": "9:45 AM",
+          "price": "$530"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "The Londoner",
+          "rating": 4.2,
+          "price_per_night": "$140"
+        },
+        {
+          "hotel_name": "Tower Bridge Hotel",
+          "rating": 4.5,
+          "price_per_night": "$220"
+        }
+      ]
+    },
+    {
+      "name": "Sydney",
+      "flights": [
+        {
+          "flight_no": "QF21",
+          "departure": "Chennai",
+          "arrival_time": "6:00 AM",
+          "price": "$800"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Harbour View",
+          "rating": 4.6,
+          "price_per_night": "$160"
+        },
+        {
+          "hotel_name": "Opera House Inn",
+          "rating": 4.8,
+          "price_per_night": "$250"
+        }
+      ]
+    },
+    {
+      "name": "Dubai",
+      "flights": [
+        {
+          "flight_no": "EK512",
+          "departure": "Mumbai",
+          "arrival_time": "2:30 AM",
+          "price": "$400"
+        },
+        {
+          "flight_no": "AI974",
+          "departure": "Delhi",
+          "arrival_time": "3:15 AM",
+          "price": "$420"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Burj Al Arab Suites",
+          "rating": 4.9,
+          "price_per_night": "$450"
+        },
+        {
+          "hotel_name": "Desert Rose Hotel",
+          "rating": 4.3,
+          "price_per_night": "$130"
+        }
+      ]
+    },
+    {
+      "name": "Rome",
+      "flights": [
+        {
+          "flight_no": "AZ784",
+          "departure": "Mumbai",
+          "arrival_time": "12:00 PM",
+          "price": "$600"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Colosseum View",
+          "rating": 4.4,
+          "price_per_night": "$170"
+        },
+        {
+          "hotel_name": "Trevi Fountain Inn",
+          "rating": 4.7,
+          "price_per_night": "$210"
+        }
+      ]
+    },
+    {
+      "name": "Bangkok",
+      "flights": [
+        {
+          "flight_no": "TG318",
+          "departure": "Delhi",
+          "arrival_time": "4:50 AM",
+          "price": "$350"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Chao Phraya Riverside",
+          "rating": 4.5,
+          "price_per_night": "$90"
+        },
+        {
+          "hotel_name": "Sukhumvit Suites",
+          "rating": 4.2,
+          "price_per_night": "$75"
+        }
+      ]
+    },
+    {
+      "name": "San Francisco",
+      "flights": [
+        {
+          "flight_no": "UA789",
+          "departure": "Delhi",
+          "arrival_time": "8:00 AM",
+          "price": "$720"
+        },
+        {
+          "flight_no": "AI101",
+          "departure": "Mumbai",
+          "arrival_time": "9:30 AM",
+          "price": "$740"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Bayfront Hotel",
+          "rating": 4.5,
+          "price_per_night": "$200"
+        },
+        {
+          "hotel_name": "Golden Gate Inn",
+          "rating": 4.3,
+          "price_per_night": "$180"
+        }
+      ]
+    },
+    {
+      "name": "Berlin",
+      "flights": [
+        {
+          "flight_no": "LH900",
+          "departure": "Mumbai",
+          "arrival_time": "2:45 PM",
+          "price": "$580"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Brandenburg Suites",
+          "rating": 4.4,
+          "price_per_night": "$150"
+        },
+        {
+          "hotel_name": "East Side Hotel",
+          "rating": 4.1,
+          "price_per_night": "$130"
+        }
+      ]
+    },
+    {
+      "name": "Barcelona",
+      "flights": [
+        {
+          "flight_no": "IB650",
+          "departure": "Delhi",
+          "arrival_time": "11:20 AM",
+          "price": "$620"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Gothic Quarter Inn",
+          "rating": 4.6,
+          "price_per_night": "$170"
+        },
+        {
+          "hotel_name": "Beachside Retreat",
+          "rating": 4.3,
+          "price_per_night": "$140"
+        }
+      ]
+    },
+    {
+      "name": "Cape Town",
+      "flights": [
+        {
+          "flight_no": "SA331",
+          "departure": "Mumbai",
+          "arrival_time": "3:10 AM",
+          "price": "$880"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Table Mountain Lodge",
+          "rating": 4.8,
+          "price_per_night": "$220"
+        },
+        {
+          "hotel_name": "Waterfront Hotel",
+          "rating": 4.5,
+          "price_per_night": "$200"
+        }
+      ]
+    },
+    {
+      "name": "Moscow",
+      "flights": [
+        {
+          "flight_no": "SU213",
+          "departure": "Delhi",
+          "arrival_time": "5:50 AM",
+          "price": "$610"
+        }
+      ],
+      "hotels": [
+        {
+          "hotel_name": "Red Square Hotel",
+          "rating": 4.3,
+          "price_per_night": "$140"
+        },
+        {
+          "hotel_name": "Kremlin View Inn",
+          "rating": 4.2,
+          "price_per_night": "$160"
+        }
+      ]
+    }
+  ]
+}
