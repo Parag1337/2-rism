@@ -45,41 +45,28 @@
     <main class="main" id="home">
       <!-- Header -->
       <header class="header">
-        <!-- logo -->
-        <div class="logo">
-          <img src="imgs/Logo/logo.svg" alt="2rism" />
-        </div>
-
-        <!-- navbar -->
-        <nav class="navbar">
-          <ul class="navlists">
-            <li class="navlist"><a href="#home">Home</a></li>
-            <li class="navlist"><a href="#restaurants">Hotels</a></li>
-            <li class="navlist"><a href="#restaurants">Restaurants</a></li>
-            <li class="navlist"><a href="#tours">Tours</a></li>
-            <li class="navlist"><a href="#destinations">Destinations</a></li>
-            <li class="navlist"><a href="#activities">Activities</a></li>
-            <li class="navlist"><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-
-        <!-- user || navigator -->
-        <div class="user-profile">
-          <div class="profile-name">
-            <h2>
-              <span class="hello"> Hello, </span>
-              <span class="indiviual-name"> Group 1</span>
-            </h2>
-          </div>
-
-          <div class="profile-pic">
-            <img
-              src="/Imgs/ProfilePic/124164909_2212008852330390_5501660797980127002_n (1).png"
-              alt=""
-            />
-          </div>
-        </div>
-      </header>
+  <div class="logo">
+    <a href="/"><img src="/Imgs/Logo/logo.svg" alt="2rism"></a>
+  </div>
+  <nav class="navbar">
+    <ul class="navlists">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#destinations">Destinations</a></li>
+      <li><a href="/#restaurants">Hotels</a></li>
+      <li><a href="/#tours">Flights</a></li>
+      <li><a href="/#activities">Activities</a></li>
+    </ul>
+  </nav>
+  <div class="user-profile">
+    {% if session.user_email %}
+      <span>Hello, {{ session.user_name }}</span>
+      <a href="/dashboard" class="btn">Dashboard</a>
+      <a href="/logout" class="btn">Logout</a>
+    {% else %}
+      <a href="/login" class="btn">Login</a>
+    {% endif %}
+  </div>
+</header>
 
       <!-- showcase-content -->
       <div class="showcase-content">

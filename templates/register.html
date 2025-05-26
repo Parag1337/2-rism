@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/mobile.css" rel="stylesheet" media="screen and (max-width: 768px)">
+    
+    <!-- unicons -->
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <title>Register - 2rism</title>
+    
+    <style>
+        .register-container {
+            max-width: 550px;
+            margin: 80px auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h1 {
+            color: #333;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .register-header p {
+            color: #666;
+            font-size: 1.6rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.6rem;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.6rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(123, 97, 255, 0.3);
+            outline: none;
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-register:hover {
+            background-color: #6651e4;
+        }
+        
+        .register-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.5rem;
+            color: #666;
+        }
+        
+        .register-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+        }
+        
+        .alert-danger {
+            background-color: #ffe6e6;
+            color: #d63031;
+            border: 1px solid #fab1a0;
+        }
+        
+        .alert-success {
+            background-color: #e6fff2;
+            color: #00b894;
+            border: 1px solid #55efc4;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="main" style="min-height: 300px; border-radius: 0 0 50px 50px;">
+        <header class="header">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo.png" alt="2rism Logo"></a>
+            </div>
+            <nav class="navbar">
+                <ul class="navlists">
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#destinations">Destinations</a></li>
+                    <li><a href="/#restaurants">Hotels</a></li>
+                    <li><a href="/#tours">Flights</a></li>
+                    <li><a href="/#activities">Activities</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <a href="/login" class="btn">Login</a>
+            </div>
+        </header>
+    </div>
+
+    <!-- Registration form -->
+    <div class="register-container">
+        <div class="register-header">
+            <h1>Create an Account</h1>
+            <p>Join us for the best travel experience</p>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="/register" method="post" id="registerForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Enter your first name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Enter your last name" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Choose a password" minlength="8" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm your password" required>
+            </div>
+            
+            <div class="form-group" style="margin-top: 30px;">
+                <button type="submit" class="btn-register">Create Account</button>
+            </div>
+        </form>
+        
+        <div class="register-footer">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+            <p style="margin-top: 10px;"><a href="/">Back to homepage</a></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="/Imgs/Logo2.png" alt="2rism Logo">
+                    </div>
+                    <p>We always make our customers happy by providing as many choices as possible</p>
+                    <div class="footer-social-icons">
+                        <a href="#"><img src="/Imgs/social/twitter.png" alt="Twitter"></a>
+                        <a href="#"><img src="/Imgs/social/facebook.png" alt="Facebook"></a>
+                        <a href="#"><img src="/Imgs/social/instagram.png" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form validation
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+            }
+        });
+    </script>
+</body>
+</html>

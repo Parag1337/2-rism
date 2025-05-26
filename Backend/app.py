@@ -1,34 +1,35 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import json
 import os
 import datetime
+import sys
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# Add the parent directory to the path so we can import myfile.py
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Import functions from myfile.py
+from myfile import load_travel_data, get_destinations, get_flights_for_destination, get_hotels_for_destination
 
 app = Flask(__name__, 
-    static_folder='../',  # Keep this as is
-    static_url_path='',   # Add this line
+    static_folder='../',
+    static_url_path='',
     template_folder='../templates')
+app.secret_key = 'your_secret_key_here'  # For session management
 
-# Load travel data from JSON file
-def load_travel_data():
-    try:
-        # Get the directory of this script
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        # Go up one level to the main project directory
-        project_dir = os.path.dirname(script_dir)
-        # Path to the JSON file
-        json_path = os.path.join(project_dir, 'travel_data.json')
-        
-        with open(json_path, 'r') as file:
-            data = json.load(file)
-        return data
-    except Exception as e:
-        print(f"Error loading travel data: {e}")
-        return {"destinations": []}
+# User database (in a real app, this would be in a database)
+users = {
+    'demo@example.com': {'password': 'password123', 'name': 'Demo User'}
+}
+
+# Store bookings (in a real app, this would be in a database)
+# Structure: { 'user_email': [booking1, booking2, ...] }
+bookings_db = {}
 
 @app.route('/')
 def index():
-    # Serve the static index.html file from the root directory
-    return app.send_static_file('Index.html')
+    # Render the index template instead of sending static file
+    # This allows Jinja2 templating to work
+    return render_template('Index.html', user_name=session.get('user_name'))
 
 @app.route('/search_flights', methods=['POST'])
 def search_flights():
@@ -38,27 +39,30 @@ def search_flights():
     travel_date = request.form.get('date')
     guests = request.form.get('guests')
     
-    # Load travel data
-    travel_data = load_travel_data()
+    # Get the project directory path for the JSON file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    json_path = os.path.join(project_dir, 'travel_data.json')
     
-    # Find matching destination
-    matching_destination = None
-    for dest in travel_data['destinations']:
-        if dest['name'] == destination.split(',')[0].strip():  # Extract destination name before the comma
-            matching_destination = dest
-            break
+    # Use imported function to load travel data
+    travel_data = load_travel_data(json_path)
     
-    # Find matching flights
+    # Extract destination name before the comma
+    destination_name = destination.split(',')[0].strip() if destination and ',' in destination else destination
+    
+    # Use imported function to get flights for the destination
+    flights = get_flights_for_destination(travel_data, destination_name)
+    
+    # Filter flights by departure
     matching_flights = []
-    if matching_destination:
-        for flight in matching_destination['flights']:
-            if flight['departure'] == departure:
-                # Add formatted date to the flight data
-                flight_with_date = flight.copy()
-                flight_with_date['travel_date'] = travel_date
-                flight_with_date['guests'] = guests
-                flight_with_date['destination'] = matching_destination['name']
-                matching_flights.append(flight_with_date)
+    for flight in flights:
+        if flight['departure'] == departure:
+            # Add formatted date to the flight data
+            flight_with_date = flight.copy()
+            flight_with_date['travel_date'] = travel_date
+            flight_with_date['guests'] = guests
+            flight_with_date['destination'] = destination_name
+            matching_flights.append(flight_with_date)
     
     # If no flights found, send an appropriate message
     if not matching_flights:
@@ -77,6 +81,11 @@ def search_flights():
 
 @app.route('/book_flight', methods=['POST'])
 def book_flight():
+    # Check if user is logged in
+    if 'user_email' not in session:
+        flash('Please log in to book a flight', 'danger')
+        return redirect(url_for('login'))
+    
     # Get form data
     flight_no = request.form.get('flight_no')
     departure = request.form.get('departure')
@@ -84,14 +93,253 @@ def book_flight():
     travel_date = request.form.get('date')
     guests = request.form.get('guests')
     
-    # Here you would typically save the booking to a database
-    # For now, we'll just render a booking confirmation page
+    # Generate a booking reference number
+    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    
+    # Create booking object
+    booking = {
+        'id': booking_id,
+        'type': 'flight',
+        'flight_no': flight_no,
+        'departure': departure,
+        'destination': destination,
+        'date': travel_date,
+        'guests': guests,
+        'status': 'confirmed',
+        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    }
+    
+    # Store the booking in our in-memory database
+    user_email = session['user_email']
+    if user_email not in bookings_db:
+        bookings_db[user_email] = []
+    
+    bookings_db[user_email].append(booking)
+    
+    # Render the booking confirmation page
     return render_template('booking_confirmation.html',
+                          booking_id=booking_id,
                           flight_no=flight_no,
                           departure=departure,
                           destination=destination,
                           date=travel_date,
                           guests=guests)
+
+@app.route('/search_hotels', methods=['POST'])
+def search_hotels():
+    # Get form data
+    destination = request.form.get('location')
+    check_in = request.form.get('check_in')
+    check_out = request.form.get('check_out')
+    guests = request.form.get('guests')
+    
+    # Get the project directory path for the JSON file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    json_path = os.path.join(project_dir, 'travel_data.json')
+    
+    # Use imported function to load travel data
+    travel_data = load_travel_data(json_path)
+    
+    # Extract destination name before the comma
+    destination_name = destination.split(',')[0].strip() if destination and ',' in destination else destination
+    
+    # Use imported function to get hotels for the destination
+    hotels = get_hotels_for_destination(travel_data, destination_name)
+    
+    # If no hotels found, send an appropriate message
+    if not hotels:
+        return render_template('no_hotels.html', 
+                               destination=destination, 
+                               check_in=check_in,
+                               check_out=check_out)
+    
+    # Render the results page with the matching hotels
+    return render_template('hotel_result.html', 
+                           hotels=hotels, 
+                           destination=destination,
+                           check_in=check_in,
+                           check_out=check_out,
+                           guests=guests)
+
+@app.route('/book_hotel', methods=['POST'])
+def book_hotel():
+    # Check if user is logged in
+    if 'user_email' not in session:
+        flash('Please log in to book a hotel', 'danger')
+        return redirect(url_for('login'))
+    
+    # Get form data
+    hotel_name = request.form.get('hotel_name')
+    destination = request.form.get('destination')
+    check_in = request.form.get('check_in')
+    check_out = request.form.get('check_out')
+    guests = request.form.get('guests')
+    
+    # Generate a booking reference number
+    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    
+    # Create booking object
+    booking = {
+        'id': booking_id,
+        'type': 'hotel',
+        'hotel_name': hotel_name,
+        'destination': destination,
+        'check_in': check_in,
+        'check_out': check_out,
+        'guests': guests,
+        'status': 'confirmed',
+        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    }
+    
+    # Store the booking in our in-memory database
+    user_email = session['user_email']
+    if user_email not in bookings_db:
+        bookings_db[user_email] = []
+    
+    bookings_db[user_email].append(booking)
+    
+    # Render the booking confirmation page
+    return render_template('hotel_booking_confirmation.html',
+                          booking_id=booking_id,
+                          hotel_name=hotel_name,
+                          destination=destination,
+                          check_in=check_in,
+                          check_out=check_out,
+                          guests=guests)
+
+@app.route('/api/destinations')
+def api_destinations():
+    # Get the project directory path for the JSON file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    json_path = os.path.join(project_dir, 'travel_data.json')
+    
+    # Use imported function to load travel data
+    travel_data = load_travel_data(json_path)
+    
+    # Use imported function to get list of destinations
+    destination_names = get_destinations(travel_data)
+    
+    destinations = []
+    for name in destination_names:
+        for dest in travel_data.get('destinations', []):
+            if dest.get('name') == name:
+                destinations.append({
+                    'name': dest.get('name', ''),
+                    'country': dest.get('country', ''),
+                    'description': dest.get('description', ''),
+                    'image': dest.get('image', '')
+                })
+                break
+    
+    return {'destinations': destinations}
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        if email in users and users[email]['password'] == password:
+            # Set session variables
+            session['user_email'] = email
+            session['user_name'] = users[email]['name']
+            flash('Login successful!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid email or password', 'danger')
+    
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # Get form data
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        # Check if user already exists
+        if email in users:
+            flash('Email already registered', 'danger')
+            return render_template('register.html')
+        
+        # Create new user
+        users[email] = {
+            'password': password,  # In production, use password hashing
+            'name': f"{first_name} {last_name}"
+        }
+        
+        # In a real app, you would save the user to a database here
+        
+        flash('Registration successful! Please log in.', 'success')
+        return redirect(url_for('login'))
+        
+    # If GET request, display registration form
+    return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    # Clear session variables
+    session.pop('user_email', None)
+    session.pop('user_name', None)
+    flash('You have been logged out', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/dashboard')
+def dashboard():
+    # Check if user is logged in
+    if 'user_email' not in session:
+        flash('Please log in to access your dashboard', 'danger')
+        return redirect(url_for('login'))
+    
+    # Get the user's bookings from our in-memory database
+    user_email = session['user_email']
+    user_bookings = bookings_db.get(user_email, [])
+    
+    # If no bookings yet, show default examples only for demo purposes
+    if not user_bookings:
+        # These are just examples - in a real app you wouldn't show fake bookings
+        user_bookings = [
+            {
+                'id': 'BK20230515123456',
+                'type': 'flight',
+                'flight_no': 'FL123',
+                'departure': 'New York',
+                'destination': 'Paris',
+                'date': '2023-06-15',
+                'status': 'confirmed'
+            },
+            {
+                'id': 'BK20230516789012',
+                'type': 'hotel',
+                'hotel_name': 'Grand Hotel Paris',
+                'destination': 'Paris',
+                'check_in': '2023-06-15',
+                'check_out': '2023-06-20',
+                'status': 'confirmed'
+            }
+        ]
+    
+    return render_template('dashboard.html', 
+                          user_name=session.get('user_name'),
+                          bookings=user_bookings)
+
+# Add a no_hotels route for consistency
+@app.route('/no_hotels')
+def no_hotels():
+    # This route can be used to redirect to the no_hotels template
+    # with parameters from the session or request
+    destination = request.args.get('destination')
+    check_in = request.args.get('check_in')
+    check_out = request.args.get('check_out')
+    
+    return render_template('no_hotels.html',
+                          destination=destination,
+                          check_in=check_in,
+                          check_out=check_out)
 
 if __name__ == '__main__':
     app.run(debug=True)

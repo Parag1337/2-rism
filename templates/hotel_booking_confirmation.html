@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/mobile.css" rel="stylesheet" media="screen and (max-width: 768px)">
+    
+    <!-- unicons -->
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <title>Hotel Booking Confirmation - 2rism</title>
+    
+    <style>
+        .booking-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .booking-header h1 {
+            color: #333;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .booking-header p {
+            color: #666;
+            font-size: 1.6rem;
+        }
+        
+        .booking-id {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .booking-id h3 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .booking-id p {
+            color: #666;
+            font-size: 1.4rem;
+        }
+        
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        
+        .detail-item label {
+            display: block;
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .detail-item p {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .booking-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.6rem;
+        }
+        
+        .summary-row.total {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.6rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #6651e4;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(123, 97, 255, 0.1);
+        }
+        
+        .hotel-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-message {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.6rem;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .booking-container {
+                margin: 30px 15px;
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="main" style="min-height: 300px; border-radius: 0 0 50px 50px;">
+        <header class="header">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo.png" alt="2rism Logo"></a>
+            </div>
+            <nav class="navbar">
+                <ul class="navlists">
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#destinations">Destinations</a></li>
+                    <li><a href="/#restaurants">Hotels</a></li>
+                    <li><a href="/#tours">Flights</a></li>
+                    <li><a href="/#activities">Activities</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                {% if session.user_email %}
+                    <h2>
+                        <span class="hello">Hello,</span>
+                        {{ session.user_name }}
+                    </h2>
+                    <a href="/dashboard" style="opacity: 0.8; margin-left: 15px;">Dashboard</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        </header>
+    </div>
+
+    <!-- Booking Confirmation Content -->
+    <div class="booking-container">
+        <div class="booking-header">
+            <h1>Booking Confirmed!</h1>
+            <p>Your hotel reservation has been successfully booked</p>
+        </div>
+        
+        <div class="booking-id">
+            <h3>Booking Reference</h3>
+            <p>{{ booking_id }}</p>
+        </div>
+        
+        <!-- Optional: Show hotel image if available -->
+        <img src="/Imgs/hotels/hotel-default.jpg" alt="{{ hotel_name }}" class="hotel-image">
+        
+        <div class="booking-details">
+            <div class="detail-item">
+                <label>Hotel</label>
+                <p>{{ hotel_name }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Destination</label>
+                <p>{{ destination }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Check-in Date</label>
+                <p>{{ check_in }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Check-out Date</label>
+                <p>{{ check_out }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Guests</label>
+                <p>{{ guests }} person(s)</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Status</label>
+                <p style="color: #00b894;">Confirmed</p>
+            </div>
+        </div>
+        
+        <div class="confirmation-message">
+            <p>A confirmation email with all details has been sent to your registered email address.</p>
+        </div>
+        
+        <div class="booking-summary">
+            <h3 style="margin-bottom: 15px; font-size: 1.8rem;">Booking Summary</h3>
+            
+            <div class="summary-row">
+                <span>Room rate</span>
+                <span>$149.00 × {{ ((check_out|string)[8:]|int) - ((check_in|string)[8:]|int) }} nights</span>
+            </div>
+            
+            <div class="summary-row">
+                <span>Taxes and fees</span>
+                <span>$29.80</span>
+            </div>
+            
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>${{ 149.00 * ((check_out|string)[8:]|int - (check_in|string)[8:]|int) + 29.80 }}</span>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/dashboard" class="btn btn-primary">View My Bookings</a>
+            <a href="/" class="btn btn-outline">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="/Imgs/Logo2.png" alt="2rism Logo">
+                    </div>
+                    <p>We always make our customers happy by providing as many choices as possible</p>
+                    <div class="footer-social-icons">
+                        <a href="#"><img src="/Imgs/social/twitter.png" alt="Twitter"></a>
+                        <a href="#"><img src="/Imgs/social/facebook.png" alt="Facebook"></a>
+                        <a href="#"><img src="/Imgs/social/instagram.png" alt="Instagram"></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Planning</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Why 2rism</a></li>
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Account</a></li>
+                        <li><a href="#">Support Center</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calculate number of nights and total cost
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // This would work if check_in and check_out are proper date strings
+                const checkIn = new Date('{{ check_in }}');
+                const checkOut = new Date('{{ check_out }}');
+                
+                // Calculate number of nights
+                const nights = Math.floor((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                
+                // Calculate room cost
+                const roomRate = 149.00;
+                const taxes = 29.80;
+                const total = (roomRate * nights) + taxes;
+                
+                // Update the summary if calculation is successful
+                if (!isNaN(nights) && nights > 0) {
+                    document.querySelector('.summary-row:first-child span:last-child').textContent = 
+                        '$' + roomRate.toFixed(2) + ' × ' + nights + ' nights';
+                    
+                    document.querySelector('.summary-row.total span:last-child').textContent = 
+                        '$' + total.toFixed(2);
+                }
+            } catch (e) {
+                // If there's any error, we'll just use the fallback calculated in Jinja
+                console.log('Using fallback date calculation');
+            }
+        });
+    </script>
+</body>
+</html>

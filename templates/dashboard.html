@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/mobile.css" rel="stylesheet" media="screen and (max-width: 768px)">
+    
+    <!-- unicons -->
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <title>My Dashboard - 2rism</title>
+    
+    <style>
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .dashboard-header h1 {
+            color: #333;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .dashboard-header p {
+            color: #666;
+            font-size: 1.6rem;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 3.2rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            font-size: 1.4rem;
+            color: #666;
+        }
+        
+        .booking-list {
+            margin-top: 20px;
+        }
+        
+        .booking-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-details {
+            flex-grow: 1;
+        }
+        
+        .booking-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .booking-header h3 {
+            font-size: 1.8rem;
+            margin-right: 10px;
+        }
+        
+        .booking-type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .booking-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            font-size: 1.4rem;
+            color: #555;
+        }
+        
+        .booking-info div {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .booking-info div span {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .booking-status {
+            font-size: 1.4rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .status-confirmed {
+            background-color: #e6fff2;
+            color: #00b894;
+        }
+        
+        .status-pending {
+            background-color: #fff8e6;
+            color: #fdcb6e;
+        }
+        
+        .status-cancelled {
+            background-color: #ffe6e6;
+            color: #d63031;
+        }
+        
+        .no-bookings {
+            text-align: center;
+            padding: 50px 0;
+            font-size: 1.8rem;
+            color: #666;
+        }
+        
+        .btn-new-booking {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-new-booking:hover {
+            background-color: #6651e4;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-info {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .booking-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .booking-status {
+                margin-top: 15px;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="main" style="min-height: 300px; border-radius: 0 0 50px 50px;">
+        <header class="header">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo.png" alt="2rism Logo"></a>
+            </div>
+            <nav class="navbar">
+                <ul class="navlists">
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#destinations">Destinations</a></li>
+                    <li><a href="/#restaurants">Hotels</a></li>
+                    <li><a href="/#tours">Flights</a></li>
+                    <li><a href="/#activities">Activities</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div>
+                    <h2>
+                        <span class="hello">Hello,</span>
+                        {{ user_name }}
+                    </h2>
+                </div>
+                <a href="/logout" style="opacity: 0.7; margin-left: 15px; font-size: 1.4rem;">Logout</a>
+            </div>
+        </header>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1>My Dashboard</h1>
+                <p>Manage your travel bookings and preferences</p>
+            </div>
+            <a href="/" class="btn-new-booking">Book New Trip</a>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>{{ bookings|length }}</h3>
+                <p>Total Bookings</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ bookings|selectattr('type', 'equalto', 'flight')|list|length }}</h3>
+                <p>Flight Bookings</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ bookings|selectattr('type', 'equalto', 'hotel')|list|length }}</h3>
+                <p>Hotel Bookings</p>
+            </div>
+        </div>
+        
+        <h2 style="font-size: 2.2rem; margin-bottom: 20px; color: #333;">Your Bookings</h2>
+        
+        <div class="booking-list">
+            {% if bookings %}
+                {% for booking in bookings %}
+                <div class="booking-card">
+                    <div class="booking-details">
+                        <div class="booking-header">
+                            <h3>{{ booking.id }}</h3>
+                            <div class="booking-type">{{ booking.type|title }}</div>
+                        </div>
+                        
+                        <div class="booking-info">
+                            {% if booking.type == 'flight' %}
+                                <div>
+                                    <span>Flight</span>
+                                    {{ booking.flight_no }}
+                                </div>
+                                <div>
+                                    <span>From</span>
+                                    {{ booking.departure }}
+                                </div>
+                                <div>
+                                    <span>To</span>
+                                    {{ booking.destination }}
+                                </div>
+                                <div>
+                                    <span>Date</span>
+                                    {{ booking.date }}
+                                </div>
+                            {% elif booking.type == 'hotel' %}
+                                <div>
+                                    <span>Hotel</span>
+                                    {{ booking.hotel_name }}
+                                </div>
+                                <div>
+                                    <span>Location</span>
+                                    {{ booking.destination }}
+                                </div>
+                                <div>
+                                    <span>Check-in</span>
+                                    {{ booking.check_in }}
+                                </div>
+                                <div>
+                                    <span>Check-out</span>
+                                    {{ booking.check_out }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="booking-status status-{{ booking.status }}">
+                        {{ booking.status|title }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-bookings">
+                    <p>You don't have any bookings yet.</p>
+                    <p>Plan your next adventure now!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="/Imgs/Logo2.png" alt="2rism Logo">
+                    </div>
+                    <p>We always make our customers happy by providing as many choices as possible</p>
+                    <div class="footer-social-icons">
+                        <a href="#"><img src="/Imgs/social/twitter.png" alt="Twitter"></a>
+                        <a href="#"><img src="/Imgs/social/facebook.png" alt="Facebook"></a>
+                        <a href="#"><img src="/Imgs/social/instagram.png" alt="Instagram"></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Planning</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Why 2rism</a></li>
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Account</a></li>
+                        <li><a href="#">Support Center</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // For mobile navigation toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.querySelector('.toggleOn');
+            const navbar = document.querySelector('.navbar');
+            
+            if (toggleButton && navbar) {
+                toggleButton.addEventListener('click', function() {
+                    navbar.classList.toggle('navlistOn');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

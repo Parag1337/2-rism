@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Search Results | 2rism</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" media="screen and (max-width:768px)" href="/css/mobile.css">
+    
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <style>
+        .results-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .hotel-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .hotel-image {
+            width: 200px;
+            height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .hotel-details {
+            flex: 2;
+        }
+        
+        .hotel-pricing {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .hotel-name {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-location {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .hotel-location i {
+            color: #7b61ff;
+            margin-right: 0.5rem;
+        }
+        
+        .hotel-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-feature {
+            background-color: #f6f4ff;
+            color: #7b61ff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .hotel-description {
+            font-size: 1.5rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-rating {
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stars {
+            color: #ffc107;
+            margin-right: 0.5rem;
+        }
+        
+        .reviews {
+            color: #666;
+        }
+        
+        .price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #7b61ff;
+            margin-bottom: 1rem;
+        }
+        
+        .price-note {
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .book-button {
+            background-color: #7b61ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .book-button:hover {
+            background-color: #6550d3;
+        }
+        
+        .search-summary {
+            background-color: #f6f4ff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .search-summary h2 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .search-summary p {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            background-color: transparent;
+            color: #7b61ff;
+            border: 1px solid #7b61ff;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #f6f4ff;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .hotel-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hotel-image {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto 1.5rem;
+            }
+            
+            .hotel-pricing {
+                text-align: center;
+                margin-top: 1.5rem;
+            }
+            
+            .actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" style="background-color: #7b61ff; padding: 2rem 0; margin-bottom: 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo/logo.svg" alt="2rism"></a>
+            </div>
+            <nav>
+                <a href="/" style="color: white; margin-left: 2rem; font-size: 1.6rem;">Return to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="results-container">
+        <div class="search-summary">
+            <h2>Hotel Search Results</h2>
+            <p><strong>Destination:</strong> {{ destination }}</p>
+            <p><strong>Check-in:</strong> {{ check_in }}</p>
+            <p><strong>Check-out:</strong> {{ check_out }}</p>
+            <p><strong>Guests:</strong> {{ guests }}</p>
+        </div>
+        
+        {% if hotels %}
+            {% for hotel in hotels %}
+                <div class="hotel-card">
+                    <img src="{{ hotel.image if hotel.image else '/Imgs/hotels/default-hotel.jpg' }}" alt="{{ hotel.name }}" class="hotel-image">
+                    
+                    <div class="hotel-details">
+                        <div class="hotel-name">{{ hotel.name }}</div>
+                        <div class="hotel-location">
+                            <i class="uil uil-map-marker"></i> {{ hotel.location if hotel.location else destination }}
+                        </div>
+                        
+                        <div class="hotel-features">
+                            {% if hotel.features %}
+                                {% for feature in hotel.features %}
+                                    <div class="hotel-feature">{{ feature }}</div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="hotel-feature">Free WiFi</div>
+                                <div class="hotel-feature">Breakfast</div>
+                                <div class="hotel-feature">Pool</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="hotel-description">
+                            {{ hotel.description if hotel.description else "This hotel offers comfortable accommodation with modern amenities and excellent service, perfect for your stay in " + destination + "." }}
+                        </div>
+                        
+                        <div class="hotel-rating">
+                            <span class="stars">
+                                {% for i in range(hotel.rating if hotel.rating else 4) %}
+                                    <i class="uil uil-star"></i>
+                                {% endfor %}
+                            </span>
+                            <span class="reviews">
+                                {{ hotel.reviews if hotel.reviews else "120+ reviews" }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="hotel-pricing">
+                        <div class="price">{{ hotel.price if hotel.price else "$149" }}</div>
+                        <div class="price-note">per night, excluding taxes</div>
+                        <form action="/book_hotel" method="POST">
+                            <input type="hidden" name="hotel_name" value="{{ hotel.name }}">
+                            <input type="hidden" name="destination" value="{{ destination }}">
+                            <input type="hidden" name="check_in" value="{{ check_in }}">
+                            <input type="hidden" name="check_out" value="{{ check_out }}">
+                            <input type="hidden" name="guests" value="{{ guests }}">
+                            <button type="submit" class="book-button">Book Now</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; font-size: 1.8rem; color: #666; margin: 3rem 0;">
+                No hotels found matching your criteria.
+            </p>
+        {% endif %}
+        
+        <div class="actions">
+            <a href="/" class="back-button">Back to Search</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #f9f9f9; padding: 3rem 0; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <img src="/Imgs/Logo/logoblack.svg" alt="2rism">
+            <p style="font-size: 1.4rem; margin-top: 1rem;">
+                &copy; 2023 2rism. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
