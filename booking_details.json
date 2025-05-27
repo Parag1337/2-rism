@@ -86,6 +86,48 @@
       "guests": "1",
       "status": "confirmed",
       "booking_date": "2025-05-27"
+    },
+    {
+      "id": "BK20250527121550",
+      "type": "flight",
+      "flight_no": "FL106",
+      "airline": "Star Alliance",
+      "departure": "Delhi",
+      "destination": "New York",
+      "date": "2025-05-14",
+      "departure_time": "12:30 PM",
+      "arrival_time": "06:45 PM",
+      "price": "720",
+      "guests": "1",
+      "status": "confirmed",
+      "booking_date": "2025-05-27"
+    },
+    {
+      "id": "BK20250527122557",
+      "type": "flight",
+      "flight_no": "FL104",
+      "airline": "Horizon Air",
+      "departure": "Delhi",
+      "destination": "Tokyo",
+      "date": "2025-05-20",
+      "departure_time": "11:45 PM",
+      "arrival_time": "03:30 PM",
+      "price": "520",
+      "guests": "1",
+      "status": "confirmed",
+      "booking_date": "2025-05-27"
+    },
+    {
+      "id": "BK20250527122627",
+      "type": "hotel",
+      "hotel_name": "Manhattan Heights",
+      "destination": "New York",
+      "check_in": "2025-05-09",
+      "check_out": "2025-05-28",
+      "price": "285",
+      "guests": "1",
+      "status": "confirmed",
+      "booking_date": "2025-05-27"
     }
   ]
 }

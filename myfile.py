@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 
 # Data Loading and Retrieval Functions
 
@@ -182,6 +183,119 @@ def run_cli(filepath='travel_data.json'):
         return
 
     display_travel_options(data, dest_name)
+
+
+# === New booking-related functions ===
+
+def get_bookings_filepath():
+    """Get the path to the bookings JSON file"""
+    # Assuming myfile.py is in the project root directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(script_dir, 'booking_details.json')
+
+
+def load_bookings():
+    """Load bookings from JSON file"""
+    filepath = get_bookings_filepath()
+    try:
+        if os.path.exists(filepath):
+            with open(filepath, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        else:
+            return {}  # Return empty dict if file doesn't exist yet
+    except Exception as e:
+        print(f"Error loading bookings: {e}")
+        return {}  # Return empty dict on error
+
+
+def save_bookings(bookings_data):
+    """Save bookings to JSON file"""
+    filepath = get_bookings_filepath()
+    try:
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(bookings_data, f, indent=2)
+        print(f"Bookings successfully saved to {filepath}")
+        return True
+    except Exception as e:
+        print(f"Error saving bookings: {e}")
+        return False
+
+
+def create_flight_booking(user_email, bookings_db, flight_data):
+    """Create a flight booking and save it to the bookings database"""
+    # Generate a booking reference number
+    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    
+    # Create booking object
+    booking = {
+        'id': booking_id,
+        'type': 'flight',
+        'flight_no': flight_data.get('flight_no'),
+        'airline': flight_data.get('airline'),
+        'departure': flight_data.get('departure'),
+        'destination': flight_data.get('destination'),
+        'date': flight_data.get('date'),
+        'departure_time': flight_data.get('departure_time'),
+        'arrival_time': flight_data.get('arrival_time'),
+        'price': flight_data.get('price'),
+        'guests': flight_data.get('guests'),
+        'status': 'confirmed',
+        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    }
+    
+    # Store the booking in our bookings_db
+    if user_email not in bookings_db:
+        bookings_db[user_email] = []
+    
+    bookings_db[user_email].append(booking)
+    
+    # Save the updated bookings to JSON file
+    save_bookings(bookings_db)
+    
+    print(f"Flight booking added for {user_email}: {booking_id}")
+    
+    return booking_id, booking
+
+
+def create_hotel_booking(user_email, bookings_db, hotel_data):
+    """Create a hotel booking and save it to the bookings database"""
+    # Generate a booking reference number
+    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    
+    # Create booking object
+    booking = {
+        'id': booking_id,
+        'type': 'hotel',
+        'hotel_name': hotel_data.get('hotel_name'),
+        'destination': hotel_data.get('destination'),
+        'check_in': hotel_data.get('check_in'),
+        'check_out': hotel_data.get('check_out'),
+        'price': hotel_data.get('price'),
+        'guests': hotel_data.get('guests'),
+        'status': 'confirmed',
+        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    }
+    
+    # Store the booking in our bookings_db
+    if user_email not in bookings_db:
+        bookings_db[user_email] = []
+    
+    bookings_db[user_email].append(booking)
+    
+    # Save the updated bookings to JSON file
+    save_bookings(bookings_db)
+    
+    print(f"Hotel booking added for {user_email}: {booking_id}")
+    
+    return booking_id, booking
+
+
+def get_user_bookings(user_email):
+    """Get all bookings for a specific user"""
+    fresh_bookings = load_bookings()
+    user_bookings = fresh_bookings.get(user_email, [])
+    print(f"Found {len(user_bookings)} bookings for user {user_email}")
+    return user_bookings
 
 
 if __name__ == "__main__":

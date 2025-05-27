@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import json
-import os
-import datetime
 import sys
-from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 # Add the parent directory to the path so we can import myfile.py
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # Import functions from myfile.py
 from myfile import (
     load_travel_data, 
@@ -14,7 +12,14 @@ from myfile import (
     get_flights_for_destination, 
     get_hotels_for_destination,
     get_departure_cities,
-    get_destination_details
+    get_destination_details,
+    # New imported functions
+    get_bookings_filepath,
+    load_bookings,
+    save_bookings,
+    create_flight_booking,
+    create_hotel_booking,
+    get_user_bookings
 )
 
 app = Flask(__name__, 
@@ -22,37 +27,6 @@ app = Flask(__name__,
     static_url_path='',
     template_folder='../templates')
 app.secret_key = 'your_secret_key_here'  # For session management
-
-# File path for bookings data
-def get_bookings_filepath():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_dir = os.path.dirname(script_dir)
-    return os.path.join(project_dir, 'booking_details.json')
-
-# Load bookings from JSON file
-def load_bookings():
-    filepath = get_bookings_filepath()
-    try:
-        if os.path.exists(filepath):
-            with open(filepath, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        else:
-            return {}  # Return empty dict if file doesn't exist yet
-    except Exception as e:
-        print(f"Error loading bookings: {e}")
-        return {}  # Return empty dict on error
-
-# Save bookings to JSON file
-def save_bookings(bookings_data):
-    filepath = get_bookings_filepath()
-    try:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(bookings_data, f, indent=2)
-        print(f"Bookings successfully saved to {filepath}")
-        return True
-    except Exception as e:
-        print(f"Error saving bookings: {e}")
-        return False
 
 # User database (in a real app, this would be in a database)
 users = {
@@ -136,62 +110,37 @@ def book_flight():
         flash('Please log in to book a flight', 'danger')
         return redirect(url_for('login'))
     
-    # Get form data
-    flight_no = request.form.get('flight_no')
-    airline = request.form.get('airline')
-    departure = request.form.get('departure')
-    destination = request.form.get('destination')
-    travel_date = request.form.get('date')
-    departure_time = request.form.get('departure_time')
-    arrival_time = request.form.get('arrival_time')
-    price = request.form.get('price')
-    guests = request.form.get('guests')
+    # Get user email from session
+    user_email = session['user_email']
     
-    # Generate a booking reference number
-    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
-    
-    # Create booking object
-    booking = {
-        'id': booking_id,
-        'type': 'flight',
-        'flight_no': flight_no,
-        'airline': airline,
-        'departure': departure,
-        'destination': destination,
-        'date': travel_date,
-        'departure_time': departure_time,
-        'arrival_time': arrival_time,
-        'price': price,
-        'guests': guests,
-        'status': 'confirmed',
-        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    # Create flight data dictionary from form
+    flight_data = {
+        'flight_no': request.form.get('flight_no'),
+        'airline': request.form.get('airline'),
+        'departure': request.form.get('departure'),
+        'destination': request.form.get('destination'),
+        'date': request.form.get('date'),
+        'departure_time': request.form.get('departure_time'),
+        'arrival_time': request.form.get('arrival_time'),
+        'price': request.form.get('price'),
+        'guests': request.form.get('guests')
     }
     
-    # Store the booking in our bookings_db
-    user_email = session['user_email']
-    if user_email not in bookings_db:
-        bookings_db[user_email] = []
-    
-    bookings_db[user_email].append(booking)
-    
-    # Save the updated bookings to JSON file
-    save_bookings(bookings_db)
-    
-    # Print debug info
-    print(f"Flight booking added for {user_email}: {booking_id}")
+    # Use the create_flight_booking function from myfile.py
+    booking_id, booking = create_flight_booking(user_email, bookings_db, flight_data)
     
     # Render the booking confirmation page
     return render_template('booking_confirmation.html',
                           booking_id=booking_id,
-                          flight_no=flight_no,
-                          airline=airline,
-                          departure=departure,
-                          destination=destination,
-                          date=travel_date,
-                          departure_time=departure_time,
-                          arrival_time=arrival_time,
-                          price=price,
-                          guests=guests)
+                          flight_no=flight_data['flight_no'],
+                          airline=flight_data['airline'],
+                          departure=flight_data['departure'],
+                          destination=flight_data['destination'],
+                          date=flight_data['date'],
+                          departure_time=flight_data['departure_time'],
+                          arrival_time=flight_data['arrival_time'],
+                          price=flight_data['price'],
+                          guests=flight_data['guests'])
 
 @app.route('/search_hotels', methods=['POST'])
 def search_hotels():
@@ -237,53 +186,31 @@ def book_hotel():
         flash('Please log in to book a hotel', 'danger')
         return redirect(url_for('login'))
     
-    # Get form data
-    hotel_name = request.form.get('hotel_name')
-    destination = request.form.get('destination')
-    check_in = request.form.get('check_in')
-    check_out = request.form.get('check_out')
-    guests = request.form.get('guests')
-    price = request.form.get('price')
+    # Get user email from session
+    user_email = session['user_email']
     
-    # Generate a booking reference number
-    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
-    
-    # Create booking object
-    booking = {
-        'id': booking_id,
-        'type': 'hotel',
-        'hotel_name': hotel_name,
-        'destination': destination,
-        'check_in': check_in,
-        'check_out': check_out,
-        'price': price,
-        'guests': guests,
-        'status': 'confirmed',
-        'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
+    # Create hotel data dictionary from form
+    hotel_data = {
+        'hotel_name': request.form.get('hotel_name'),
+        'destination': request.form.get('destination'),
+        'check_in': request.form.get('check_in'),
+        'check_out': request.form.get('check_out'),
+        'guests': request.form.get('guests'),
+        'price': request.form.get('price')
     }
     
-    # Store the booking in our bookings_db
-    user_email = session['user_email']
-    if user_email not in bookings_db:
-        bookings_db[user_email] = []
-    
-    bookings_db[user_email].append(booking)
-    
-    # Save the updated bookings to JSON file
-    save_bookings(bookings_db)
-    
-    # Print debug info
-    print(f"Hotel booking added for {user_email}: {booking_id}")
+    # Use the create_hotel_booking function from myfile.py
+    booking_id, booking = create_hotel_booking(user_email, bookings_db, hotel_data)
     
     # Render the booking confirmation page
     return render_template('hotel_booking_confirmation.html',
                           booking_id=booking_id,
-                          hotel_name=hotel_name,
-                          destination=destination,
-                          check_in=check_in,
-                          check_out=check_out,
-                          price=price,
-                          guests=guests)
+                          hotel_name=hotel_data['hotel_name'],
+                          destination=hotel_data['destination'],
+                          check_in=hotel_data['check_in'],
+                          check_out=hotel_data['check_out'],
+                          price=hotel_data['price'],
+                          guests=hotel_data['guests'])
 
 @app.route('/api/destinations')
 def api_destinations():
@@ -375,18 +302,8 @@ def dashboard():
     # Get the user's email from the session
     user_email = session['user_email']
     
-    # Load the latest bookings from file
-    # This ensures we always have the most up-to-date data
-    fresh_bookings = load_bookings()
-    
-    # Print debugging information
-    print(f"Current user: {user_email}")
-    print(f"Loading bookings from file: {get_bookings_filepath()}")
-    
-    # Get user's bookings
-    user_bookings = fresh_bookings.get(user_email, [])
-    
-    print(f"Found {len(user_bookings)} bookings for user {user_email}")
+    # Use the imported function to get user bookings
+    user_bookings = get_user_bookings(user_email)
     
     return render_template('dashboard.html', 
                          user_name=session.get('user_name'),
