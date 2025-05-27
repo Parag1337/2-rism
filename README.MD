@@ -311,3 +311,11 @@ You can run the 2rism application using either of the following methods:
 - **Data Storage**: JSON files
     
 - **UI Components**: Custom CSS, ScrollReveal.js, Swiper.js
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request.
