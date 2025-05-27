@@ -270,9 +270,11 @@
                             <input type="hidden" name="check_in" value="{{ check_in }}">
                             <input type="hidden" name="check_out" value="{{ check_out }}">
                             <input type="hidden" name="guests" value="{{ guests }}">
+                            <input type="hidden" name="price" value="{{ hotel.price }}">
                             <button type="submit" class="book-button">Book Now</button>
                         </form>
                     </div>
+                    
                 </div>
             {% endfor %}
         {% else %}

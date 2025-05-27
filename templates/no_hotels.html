@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/mobile.css" rel="stylesheet" media="screen and (max-width: 768px)">
+    
+    <!-- unicons -->
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    
+    <!-- favicon -->
+    <link rel="icon" href="/Imgs/icons/Vector.png">
+    
+    <title>No Hotels Found - 2rism</title>
+    
+    <style>
+        .no-results {
+            max-width: 800px;
+            margin: 5rem auto;
+            text-align: center;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-results h1 {
+            color: #333;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .no-results p {
+            color: #666;
+            font-size: 1.6rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .search-details {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .search-details p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7b61ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+        
+        .btn:hover {
+            background-color: #6550d3;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #7b61ff;
+            color: #7b61ff;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f6f4ff;
+        }
+        
+        .icon-large {
+            font-size: 6rem;
+            color: #7b61ff;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="main" style="min-height: 300px; border-radius: 0 0 50px 50px;">
+        <header class="header">
+            <div class="logo">
+                <a href="/"><img src="/Imgs/Logo.png" alt="2rism Logo"></a>
+            </div>
+            <nav class="navbar">
+                <ul class="navlists">
+                    <li><a href="/#home">Home</a></li>
+                    <li><a href="/#destinations">Destinations</a></li>
+                    <li><a href="/#restaurants">Hotels</a></li>
+                    <li><a href="/#tours">Flights</a></li>
+                    <li><a href="/#activities">Activities</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                {% if session.user_email %}
+                    <h2>
+                        <span class="hello">Hello,</span>
+                        {{ session.user_name }}
+                    </h2>
+                    <a href="/dashboard" style="opacity: 0.8; margin-left: 15px;">Dashboard</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        </header>
+    </div>
+
+    <!-- No Results Content -->
+    <div class="no-results">
+        <i class="uil uil-search-alt icon-large"></i>
+        <h1>No Hotels Found</h1>
+        <p>We couldn't find any hotels matching your search criteria in {{ destination }}.</p>
+        
+        <div class="search-details">
+            <p><strong>Destination:</strong> {{ destination }}</p>
+            <p><strong>Check-in:</strong> {{ check_in }}</p>
+            <p><strong>Check-out:</strong> {{ check_out }}</p>
+        </div>
+        
+        <p>Try adjusting your search criteria or explore other destinations.</p>
+        
+        <div>
+            <a href="/" class="btn">New Search</a>
+            <a href="/#destinations" class="btn btn-outline">Browse Destinations</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="/Imgs/Logo2.png" alt="2rism Logo">
+                    </div>
+                    <p>We always make our customers happy by providing as many choices as possible</p>
+                    <div class="footer-social-icons">
+                        <a href="#"><img src="/Imgs/social/twitter.png" alt="Twitter"></a>
+                        <a href="#"><img src="/Imgs/social/facebook.png" alt="Facebook"></a>
+                        <a href="#"><img src="/Imgs/social/instagram.png" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

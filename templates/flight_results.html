@@ -15,140 +15,16 @@
     
     <!-- Favicon -->
     <link rel="icon" href="/Imgs/icons/Vector.png">
-    
-    <style>
-        .results-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 2rem;
-        }
-        
-        .flight-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .flight-details {
-            flex: 3;
-        }
-        
-        .flight-price {
-            flex: 1;
-            text-align: right;
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: #7b61ff;
-        }
-        
-        .flight-no {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .flight-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.6rem;
-        }
-        
-        .flight-route {
-            font-weight: 500;
-        }
-        
-        .search-summary {
-            background-color: #f6f4ff;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-        
-        .search-summary h2 {
-            font-size: 2.4rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .search-summary p {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .book-button {
-            background-color: #7b61ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 1rem 2rem;
-            font-size: 1.6rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .book-button:hover {
-            background-color: #6550d3;
-        }
-        
-        .back-button {
-            background-color: transparent;
-            color: #7b61ff;
-            border: 1px solid #7b61ff;
-            border-radius: 8px;
-            padding: 1rem 2rem;
-            font-size: 1.6rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 1rem;
-        }
-        
-        .back-button:hover {
-            background-color: #f6f4ff;
-        }
-        
-        .actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        /* Responsive design for smaller screens */
-        @media (max-width: 768px) {
-            .flight-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .flight-price {
-                text-align: center;
-                margin-top: 1.5rem;
-            }
-            
-            .flight-info {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .actions {
-                justify-content: center;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header" style="background-color: #7b61ff; padding: 2rem 0; margin-bottom: 2rem;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+    <header class="flight-results-header">
+        <div class="container">
             <div class="logo">
                 <a href="/"><img src="/Imgs/Logo/logo.svg" alt="2rism"></a>
             </div>
             <nav>
-                <a href="/" style="color: white; margin-left: 2rem; font-size: 1.6rem;">Return to Home</a>
+                <a href="/">Return to Home</a>
             </nav>
         </div>
     </header>
@@ -172,20 +48,24 @@
                                 {{ flight.departure }} → {{ flight.destination }}
                             </div>
                             <div class="flight-time">
-                                Arrival: {{ flight.arrival_time }}
+                                {{ flight.arrival_time }}
                             </div>
                             <div class="flight-date">
-                                Date: {{ flight.travel_date }}
+                                {{ flight.travel_date }}
                             </div>
                         </div>
                     </div>
                     <div class="flight-price">
-                        {{ flight.price }}
-                        <form action="/book_flight" method="POST" style="margin-top: 1rem;">
+                        <span>{{ flight.price }}</span>
+                        <form action="/book_flight" method="POST">
                             <input type="hidden" name="flight_no" value="{{ flight.flight_no }}">
+                            <input type="hidden" name="airline" value="{{ flight.airline }}">
                             <input type="hidden" name="departure" value="{{ departure }}">
                             <input type="hidden" name="destination" value="{{ destination }}">
                             <input type="hidden" name="date" value="{{ date }}">
+                            <input type="hidden" name="departure_time" value="{{ flight.departure_time }}">
+                            <input type="hidden" name="arrival_time" value="{{ flight.arrival_time }}">
+                            <input type="hidden" name="price" value="{{ flight.price }}">
                             <input type="hidden" name="guests" value="{{ guests }}">
                             <button type="submit" class="book-button">Book Now</button>
                         </form>
@@ -193,7 +73,9 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>No flights found matching your criteria.</p>
+            <div class="no-results-message">
+                <p>No flights found matching your criteria.</p>
+            </div>
         {% endif %}
         
         <div class="actions">
@@ -202,12 +84,10 @@
     </div>
 
     <!-- Footer -->
-    <footer style="background-color: #f9f9f9; padding: 3rem 0; margin-top: 3rem;">
-        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+    <footer class="flight-results-footer">
+        <div class="container">
             <img src="/Imgs/Logo/logoblack.svg" alt="2rism">
-            <p style="font-size: 1.4rem; margin-top: 1rem;">
-                &copy; 2023 2rism. All rights reserved.
-            </p>
+            <p>&copy; 2023 2rism. All rights reserved.</p>
         </div>
     </footer>
 </body>

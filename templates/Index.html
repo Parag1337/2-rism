@@ -23,8 +23,8 @@
 
     <!-- script tag -->
     <script defer src="/JS/script.js"></script>
-    <script defer src="/JS/destinations.js"></script>
-    <!-- Removed flights.js since we're handling flight searches via Flask now -->
+
+
     <script defer src="/JS/form-validation.js"></script>
 
     <!-- ScrollReveal -->
@@ -78,96 +78,38 @@
 
       <!-- showcase-search -->
       <div class="showcase-search">
-        <form class="filters" action="/search_flights" method="POST">
-          <!-- From -->
-          <div class="filter">
-            <div class="search-icon">
-              <img src="/Imgs/icons/location.png" alt="Departure Icon" />
-            </div>
-            <div class="search-text">
-              <label for="departure">
-                <h4>From</h4>
-                <select name="departure" id="departure" class="form-control large-input" required>
-                  <option value="" disabled selected>Select departure</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Chennai">Chennai</option>
-                </select>
-              </label>
-            </div>
-          </div>
-          
-          <!-- Where -->
-          <div class="filter">
-            <div class="search-icon">
-              <img src="/Imgs/icons/location.png" alt="Location Icon" />
-            </div>
-            <div class="search-text">
-              <label for="location">
-                <h4>Where</h4>
-                <select name="location" id="location" class="form-control large-input" required>
-                  <option value="" disabled selected>Select a destination</option>
-                  <option value="Paris">Paris, France</option>
-                  <option value="Tokyo">Tokyo, Japan</option>
-                  <option value="New York">New York City, USA</option>
-                  <option value="London">London, UK</option>
-                  <option value="Sydney">Sydney, Australia</option>
-                  <option value="Dubai">Dubai, UAE</option>
-                  <option value="Rome">Rome, Italy</option>
-                  <option value="Bangkok">Bangkok, Thailand</option>
-                  <option value="San Francisco">San Francisco, USA</option>
-                  <option value="Berlin">Berlin, Germany</option>
-                  <option value="Barcelona">Barcelona, Spain</option>
-                  <option value="Cape Town">Cape Town, South Africa</option>
-                  <option value="Moscow">Moscow, Russia</option>
-                </select>
-              </label>
-            </div>
-          </div>
-          
-          <!-- Date -->
-          <div class="filter">
-            <div class="search-icon">
-              <img src="/Imgs/icons/calendar.png" alt="Calendar Icon" />
-            </div>
-            <div class="search-text">
-              <label for="date">
-                <h4>Date</h4>
-                <input type="date" id="date" name="date" class="form-control large-input" required />
-              </label>
-            </div>
-          </div>
-
-          <!-- Number of People -->
-          <div class="filter">
-            <div class="search-icon">
-              <img src="/Imgs/icons/guest.png" alt="Guests Icon" />
-            </div>
-            <div class="search-text">
-              <label for="guests">
-                <h4>Guests</h4>
-                <input
-                  type="number"
-                  id="guests"
-                  name="guests"
-                  placeholder="Number of people"
-                  class="form-control large-input"
-                  min="1"
-                  max="10"
-                  required
-                />
-              </label>
-            </div>
-          </div>
-
-          <!-- Search Button -->
-          <div class="search-button-icon">
-            <button type="submit" class="search-button">
-              <img src="/Imgs/icons/search.svg" alt="Search Icon" />
-            </button>
-          </div>
-        </form>
+  <form action="/search_flights" method="post">
+    <div class="showcase-search-inner">
+      <div class="search-input">
+        <label for="departure">From</label>
+        <select id="departure" name="departure" required>
+          <option value="" disabled selected>Select departure city</option>
+          {% for city in departure_cities %}
+            <option value="{{ city }}">{{ city }}</option>
+          {% endfor %}
+        </select>
       </div>
+      <div class="search-input">
+        <label for="location">To</label>
+        <select id="location" name="location" required>
+          <option value="" disabled selected>Select destination</option>
+          {% for dest in destinations %}
+            <option value="{{ dest }}">{{ dest }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="search-input">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="search-input">
+        <label for="guests">Guests</label>
+        <input type="number" id="guests" name="guests" min="1" value="1">
+      </div>
+      <button type="submit" class="search-btn">Search</button>
+    </div>
+  </form>
+</div>
     </main>
     <!-- popular Destinations -->
     <section class="destinations" id="destinations">
@@ -275,69 +217,44 @@
     <section class="hotel-restaurants" id="restaurants">
       <div class="container">
         <div class="title-container">
-          <h2 class="section-title"> Hotels And Restaurants</h2>
+          <h2 class="section-title">Hotels And Restaurants</h2>
           <div class="section-button hotel-button">view all <img src="/Imgs/icons/bleft.png" alt=""></div>
         </div>
-        <!-- cards -->
-        <div class="hotel-card">
-          
-          <!-- card 1 -->
-          <div class="hotel-cards">
-            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="" width="320" height="380">
-            <h5>Monastero Santa Rosa Hotel & Spa</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Salerno, Italy</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=5.png" alt=""></div>
+        
+        <!-- Outer box container -->
+        <div class="hotel-search-container">
+          <!-- Inner box container -->
+          <div class="hotel-search-inner-box">
+            <h3>Find Your Perfect Stay</h3>
+            <div class="hotel-search">
+              <form action="/search_hotels" method="post">
+                <div class="search-inputs">
+                  <div class="search-input">
+                    <label for="hotel-location">Location</label>
+                    <select id="hotel-location" name="location" required>
+                      <option value="" disabled selected>Select destination</option>
+                      {% for dest in destinations %}
+                        <option value="{{ dest }}">{{ dest }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="search-input">
+                    <label for="check_in">Check In</label>
+                    <input type="date" id="check_in" name="check_in" required>
+                  </div>
+                  <div class="search-input">
+                    <label for="check_out">Check Out</label>
+                    <input type="date" id="check_out" name="check_out" required>
+                  </div>
+                  <div class="search-input">
+                    <label for="hotel-guests">Guests</label>
+                    <input type="number" id="hotel-guests" name="guests" min="1" value="1">
+                  </div>
+                </div>
+                <button type="submit" class="search-btn">Find Hotels</button>
+              </form>
+            </div>
           </div>
-          <!-- card 2 -->
-          <div class="hotel-cards">
-            <img src="https://images.unsplash.com/photo-1586974726316-c6302de6a160?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80" alt="" width="320" height="380">
-            <h5>Grand Hotel Tremezzo</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Lake Como, Italy</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=4.png" alt=""></div>
-          </div>
-          <!-- card 3 -->
-          <div class="hotel-cards">
-            <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80" alt="" width="320" height="380">
-            <h5>The Oberoi Udaivilas, Udaipur</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Udaipur, India</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=2.png" alt=""></div>
-          </div>
-          <!-- card 4 -->
-          <div class="hotel-cards">
-            <img src="https://images.unsplash.com/photo-1498503182468-3b51cbb6cb24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="" width="320" height="380">
-            <h5>AKA Beverly Hills</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Los Angeles, United States</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=5.png" alt=""></div>
-          </div>
-          <!-- card 5 -->
-          <div class="hotel-cards off">
-            <img src="https://images.unsplash.com/photo-1549294413-26f195200c16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80" alt="" width="320" height="380">
-            <h5>Majestic Elegance</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Dominican Republic</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=4.png" alt=""></div>
-          </div>
-          <!-- card 6 -->
-          <div class="hotel-cards off">
-            <img src="https://images.unsplash.com/photo-1586495985096-787fb4a54ac0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80" alt="" width="320" height="380">
-            <h5>Dreams Watervilla</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Meeru Island, Maldives</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=5.png" alt=""></div>
-          </div>
-          <!-- card 7 -->
-          <div class="hotel-cards off">
-            <img src="https://images.unsplash.com/photo-1594741158704-5a784b8e59fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="" width="320" height="380">
-            <h5> Waldorf Astoria </h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt="">  Rome, Italy</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=3.png" alt=""></div>
-          </div>
-          <!-- card 8 -->
-          <div class="hotel-cards off">
-            <img src="https://images.unsplash.com/photo-1525596662741-e94ff9f26de1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="" width="320" height="380">
-            <h5>Gilli Air</h5>
-            <h6><img src="/Imgs/icons/map-pin-line.png" alt=""> Indonesia</h6>
-            <div class="ratings"> <img src="/Imgs/icons/rating=4.png" alt=""></div>
-          </div>
-
         </div>
       </div>
     </section>
