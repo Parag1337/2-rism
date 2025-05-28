@@ -2,18 +2,7 @@ import json
 import os
 import datetime
 
-# Data Loading and Retrieval Functions
-
 def load_travel_data(filepath='travel_data.json'):
-    """
-    Load travel data from JSON file
-    
-    Args:
-        filepath (str): Path to the JSON file
-        
-    Returns:
-        dict: Travel data
-    """
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -24,36 +13,15 @@ def load_travel_data(filepath='travel_data.json'):
         print(f"Error: File {filepath} is not valid JSON.")
         return {"destinations": [], "flights": [], "hotels": []}
 
-
 def get_destinations(data):
-    """
-    Get list of destination names
-    
-    Args:
-        data (dict): Travel data
-        
-    Returns:
-        list: List of destination names
-    """
     destinations = []
     if "destinations" in data:
-        for d in data["destinations"]:
-            if "name" in d:
-                destinations.append(d["name"])
+        for destination in data["destinations"]:
+            if "name" in destination:
+                destinations.append(destination["name"])
     return destinations
 
-
 def get_flights_for_destination(data, dest_name):
-    """
-    Get flights for a specific destination
-    
-    Args:
-        data (dict): Travel data
-        dest_name (str): Destination name
-        
-    Returns:
-        list: List of flights for the destination
-    """
     flights = []
     if "flights" in data:
         for flight in data["flights"]:
@@ -61,18 +29,7 @@ def get_flights_for_destination(data, dest_name):
                 flights.append(flight)
     return flights
 
-
 def get_hotels_for_destination(data, dest_name):
-    """
-    Get hotels for a specific destination
-    
-    Args:
-        data (dict): Travel data
-        dest_name (str): Destination name
-        
-    Returns:
-        list: List of hotels for the destination
-    """
     hotels = []
     if "hotels" in data:
         for hotel in data["hotels"]:
@@ -80,17 +37,7 @@ def get_hotels_for_destination(data, dest_name):
                 hotels.append(hotel)
     return hotels
 
-
 def get_departure_cities(data):
-    """
-    Get unique departure cities from flight data
-    
-    Args:
-        data (dict): Travel data
-        
-    Returns:
-        list: List of departure cities
-    """
     cities = set()
     if "flights" in data:
         for flight in data["flights"]:
@@ -98,32 +45,17 @@ def get_departure_cities(data):
                 cities.add(flight["departure"])
     return sorted(list(cities))
 
-
 def get_destination_details(data, dest_name):
-    """
-    Get details for a specific destination
-    
-    Args:
-        data (dict): Travel data
-        dest_name (str): Destination name
-        
-    Returns:
-        dict: Destination details
-    """
     if "destinations" in data:
-        for dest in data["destinations"]:
-            if dest.get("name") == dest_name:
-                return dest
+        for destination in data["destinations"]:
+            if destination.get("name") == dest_name:
+                return destination
     return None
 
-
-# CLI Interaction Functions
-
 def select_destination(destinations):
-    """CLI function to select a destination from a list"""
     print("\nAvailable destinations:")
-    for i, dest in enumerate(destinations, 1):
-        print(f"{i}. {dest}")
+    for index, destination in enumerate(destinations, 1):
+        print(f"{index}. {destination}")
     
     while True:
         try:
@@ -135,100 +67,93 @@ def select_destination(destinations):
         except ValueError:
             print("Please enter a valid number.")
 
-
 def display_travel_options(data, dest_name):
     print("\nOptions for " + dest_name + ":")
-
     flights = get_flights_for_destination(data, dest_name)
+    
     if len(flights) > 0:
         print("\nFlights:")
-        i = 0
-        while i < len(flights):
-            f = flights[i]
-            flight_no = f["flight_no"] if "flight_no" in f else "N/A"
-            departure = f["departure"] if "departure" in f else "N/A"
-            arrival = f["arrival_time"] if "arrival_time" in f else "N/A"
-            price = f["price"] if "price" in f else "N/A"
-            print("  - Flight " + str(flight_no) + " from " + str(departure) + " at " + str(arrival) + " | Price: " + str(price))
-            i += 1
+        counter = 0
+        while counter < len(flights):
+            flight = flights[counter]
+            flight_number = flight["flight_no"] if "flight_no" in flight else "N/A"
+            departure_city = flight["departure"] if "departure" in flight else "N/A"
+            arrival_time = flight["arrival_time"] if "arrival_time" in flight else "N/A"
+            ticket_price = flight["price"] if "price" in flight else "N/A"
+            print(f"  - Flight {flight_number} from {departure_city} at {arrival_time} | Price: {ticket_price}")
+            counter += 1
     else:
-        print("No flights available.")
+        print("No flights available for this destination.")
 
     hotels = get_hotels_for_destination(data, dest_name)
+    
     if len(hotels) > 0:
         print("\nHotels:")
-        i = 0
-        while i < len(hotels):
-            h = hotels[i]
-            name = h["hotel_name"] if "hotel_name" in h else "N/A"
-            rating = h["rating"] if "rating" in h else "N/A"
-            price = h["price_per_night"] if "price_per_night" in h else "N/A"
-            print("  - " + str(name) + " | Rating: " + str(rating) + " | Price/night: " + str(price))
-            i += 1
+        counter = 0
+        while counter < len(hotels):
+            hotel = hotels[counter]
+            hotel_name = hotel["hotel_name"] if "hotel_name" in hotel else "N/A"
+            hotel_rating = hotel["rating"] if "rating" in hotel else "N/A"
+            nightly_price = hotel["price_per_night"] if "price_per_night" in hotel else "N/A"
+            print(f"  - {hotel_name} | Rating: {hotel_rating} | Price/night: {nightly_price}")
+            counter += 1
     else:
-        print("No hotels available.")
-
+        print("No hotels available at this destination.")
 
 def run_cli(filepath='travel_data.json'):
-    data = load_travel_data(filepath)
-    destinations = get_destinations(data)
+    travel_data = load_travel_data(filepath)
+    available_destinations = get_destinations(travel_data)
 
-    if len(destinations) == 0:
-        print("No destinations loaded. Exiting.")
+    if len(available_destinations) == 0:
+        print("No destinations loaded from data file. Exiting application.")
         return
 
-    print("Welcome to Travel Planner CLI!")
-    dest_name = select_destination(destinations)
-    if dest_name == "":
+    print("Welcome to the 2rism Travel Planner Command Line Interface!")
+    selected_destination = select_destination(available_destinations)
+    
+    if selected_destination == "":
         return
 
-    display_travel_options(data, dest_name)
-
-
-# === New booking-related functions ===
+    display_travel_options(travel_data, selected_destination)
 
 def get_bookings_filepath():
-    """Get the path to the bookings JSON file"""
-    # Assuming myfile.py is in the project root directory
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(script_dir, 'booking_details.json')
-
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    booking_file_path = os.path.join(current_directory, 'booking_details.json')
+    return booking_file_path
 
 def load_bookings():
-    """Load bookings from JSON file"""
-    filepath = get_bookings_filepath()
+    booking_filepath = get_bookings_filepath()
+    
     try:
-        if os.path.exists(filepath):
-            with open(filepath, 'r', encoding='utf-8') as f:
-                return json.load(f)
+        if os.path.exists(booking_filepath):
+            with open(booking_filepath, 'r', encoding='utf-8') as booking_file:
+                booking_data = json.load(booking_file)
+                return booking_data
         else:
-            return {}  # Return empty dict if file doesn't exist yet
-    except Exception as e:
-        print(f"Error loading bookings: {e}")
-        return {}  # Return empty dict on error
-
+            return {}
+    except Exception as error:
+        print(f"Error loading bookings: {error}")
+        return {}
 
 def save_bookings(bookings_data):
-    """Save bookings to JSON file"""
-    filepath = get_bookings_filepath()
+    booking_filepath = get_bookings_filepath()
+    
     try:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(bookings_data, f, indent=2)
-        print(f"Bookings successfully saved to {filepath}")
+        with open(booking_filepath, 'w', encoding='utf-8') as booking_file:
+            json.dump(bookings_data, booking_file, indent=2)
+        
+        print(f"Bookings successfully saved to {booking_filepath}")
         return True
-    except Exception as e:
-        print(f"Error saving bookings: {e}")
+    except Exception as error:
+        print(f"Error saving bookings: {error}")
         return False
 
-
 def create_flight_booking(user_email, bookings_db, flight_data):
-    """Create a flight booking and save it to the bookings database"""
-    # Generate a booking reference number
-    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    current_timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    booking_reference = f"BK{current_timestamp}"
     
-    # Create booking object
-    booking = {
-        'id': booking_id,
+    flight_booking = {
+        'id': booking_reference,
         'type': 'flight',
         'flight_no': flight_data.get('flight_no'),
         'airline': flight_data.get('airline'),
@@ -243,28 +168,21 @@ def create_flight_booking(user_email, bookings_db, flight_data):
         'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
     }
     
-    # Store the booking in our bookings_db
     if user_email not in bookings_db:
         bookings_db[user_email] = []
     
-    bookings_db[user_email].append(booking)
-    
-    # Save the updated bookings to JSON file
+    bookings_db[user_email].append(flight_booking)
     save_bookings(bookings_db)
     
-    print(f"Flight booking added for {user_email}: {booking_id}")
-    
-    return booking_id, booking
-
+    print(f"Flight booking added for {user_email}: {booking_reference}")
+    return booking_reference, flight_booking
 
 def create_hotel_booking(user_email, bookings_db, hotel_data):
-    """Create a hotel booking and save it to the bookings database"""
-    # Generate a booking reference number
-    booking_id = f"BK{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+    current_timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    booking_reference = f"BK{current_timestamp}"
     
-    # Create booking object
-    booking = {
-        'id': booking_id,
+    hotel_booking = {
+        'id': booking_reference,
         'type': 'hotel',
         'hotel_name': hotel_data.get('hotel_name'),
         'destination': hotel_data.get('destination'),
@@ -276,27 +194,21 @@ def create_hotel_booking(user_email, bookings_db, hotel_data):
         'booking_date': datetime.datetime.now().strftime('%Y-%m-%d')
     }
     
-    # Store the booking in our bookings_db
     if user_email not in bookings_db:
         bookings_db[user_email] = []
     
-    bookings_db[user_email].append(booking)
-    
-    # Save the updated bookings to JSON file
+    bookings_db[user_email].append(hotel_booking)
     save_bookings(bookings_db)
     
-    print(f"Hotel booking added for {user_email}: {booking_id}")
-    
-    return booking_id, booking
-
+    print(f"Hotel booking added for {user_email}: {booking_reference}")
+    return booking_reference, hotel_booking
 
 def get_user_bookings(user_email):
-    """Get all bookings for a specific user"""
-    fresh_bookings = load_bookings()
-    user_bookings = fresh_bookings.get(user_email, [])
-    print(f"Found {len(user_bookings)} bookings for user {user_email}")
-    return user_bookings
-
+    all_bookings = load_bookings()
+    user_specific_bookings = all_bookings.get(user_email, [])
+    
+    print(f"Found {len(user_specific_bookings)} bookings for user {user_email}")
+    return user_specific_bookings
 
 if __name__ == "__main__":
     run_cli()
