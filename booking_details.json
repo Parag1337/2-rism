@@ -1,7 +1,7 @@
 {
-  "paragpanzade@gmail.com": [
+  "parag123@gmail.com": [
     {
-      "id": "BK20250527113716",
+      "id": "BK20250528143001",
       "type": "flight",
       "flight_no": "FL104",
       "airline": "Horizon Air",
@@ -13,177 +13,19 @@
       "price": "520",
       "guests": "1",
       "status": "confirmed",
-      "booking_date": "2025-05-27"
+      "booking_date": "2025-05-28"
     },
     {
-      "id": "BK20250527113749",
-      "type": "hotel",
-      "hotel_name": "Grand Palace Hotel",
-      "destination": "Paris",
-      "check_in": "2025-05-06",
-      "check_out": "2025-05-28",
-      "price": "230",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527114602",
-      "type": "flight",
-      "flight_no": "FL102",
-      "airline": "Skyline Jets",
-      "departure": "Delhi",
-      "destination": "Paris",
-      "date": "2025-05-07",
-      "departure_time": "10:15 AM",
-      "arrival_time": "04:30 PM",
-      "price": "475",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527114907",
-      "type": "flight",
-      "flight_no": "FL104",
-      "airline": "Horizon Air",
-      "departure": "Delhi",
-      "destination": "Tokyo",
-      "date": "2025-05-21",
-      "departure_time": "11:45 PM",
-      "arrival_time": "03:30 PM",
-      "price": "520",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527115046",
-      "type": "flight",
-      "flight_no": "FL106",
-      "airline": "Star Alliance",
-      "departure": "Delhi",
-      "destination": "New York",
-      "date": "2025-05-28",
-      "departure_time": "12:30 PM",
-      "arrival_time": "06:45 PM",
-      "price": "720",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527115632",
-      "type": "flight",
-      "flight_no": "FL106",
-      "airline": "Star Alliance",
-      "departure": "Delhi",
-      "destination": "New York",
-      "date": "2025-05-07",
-      "departure_time": "12:30 PM",
-      "arrival_time": "06:45 PM",
-      "price": "720",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527121550",
-      "type": "flight",
-      "flight_no": "FL106",
-      "airline": "Star Alliance",
-      "departure": "Delhi",
-      "destination": "New York",
-      "date": "2025-05-14",
-      "departure_time": "12:30 PM",
-      "arrival_time": "06:45 PM",
-      "price": "720",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527122557",
-      "type": "flight",
-      "flight_no": "FL104",
-      "airline": "Horizon Air",
-      "departure": "Delhi",
-      "destination": "Tokyo",
-      "date": "2025-05-20",
-      "departure_time": "11:45 PM",
-      "arrival_time": "03:30 PM",
-      "price": "520",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527122627",
-      "type": "hotel",
-      "hotel_name": "Manhattan Heights",
-      "destination": "New York",
-      "check_in": "2025-05-09",
-      "check_out": "2025-05-28",
-      "price": "285",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    }
-  ],
-  "parag@gmail.com": [
-    {
-      "id": "BK20250527160101",
-      "type": "flight",
-      "flight_no": "FL101",
-      "airline": "Globe Airways",
-      "departure": "Mumbai",
-      "destination": "Paris",
-      "date": "2025-05-06",
-      "departure_time": "09:30 AM",
-      "arrival_time": "03:45 PM",
-      "price": "450",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527160134",
+      "id": "BK20250528143029",
       "type": "hotel",
       "hotel_name": "Tokyo Skyline Hotel",
       "destination": "Tokyo",
-      "check_in": "2025-05-06",
-      "check_out": "2025-05-28",
+      "check_in": "2025-05-26",
+      "check_out": "2025-05-30",
       "price": "195",
       "guests": "1",
       "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527180446",
-      "type": "flight",
-      "flight_no": "FL104",
-      "airline": "Horizon Air",
-      "departure": "Delhi",
-      "destination": "Tokyo",
-      "date": "2025-05-28",
-      "departure_time": "11:45 PM",
-      "arrival_time": "03:30 PM",
-      "price": "520",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
-    },
-    {
-      "id": "BK20250527180522",
-      "type": "hotel",
-      "hotel_name": "Cherry Blossom Resort",
-      "destination": "Tokyo",
-      "check_in": "2025-05-14",
-      "check_out": "2025-05-28",
-      "price": "165",
-      "guests": "1",
-      "status": "confirmed",
-      "booking_date": "2025-05-27"
+      "booking_date": "2025-05-28"
     }
-  ],
-  
+  ]
+}
