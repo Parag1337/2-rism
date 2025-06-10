@@ -26,6 +26,50 @@
       "guests": "1",
       "status": "confirmed",
       "booking_date": "2025-05-28"
+    },
+    {
+      "id": "BK20250610192043",
+      "type": "flight",
+      "flight_no": "FL108",
+      "airline": "Oceanic Lines",
+      "departure": "Delhi",
+      "destination": "Sydney",
+      "date": "2025-07-01",
+      "departure_time": "11:45 PM",
+      "arrival_time": "04:15 PM",
+      "price": "695",
+      "guests": "1",
+      "status": "confirmed",
+      "booking_date": "2025-06-10"
+    }
+  ],
+  "parag1234@gmail.com": [
+    {
+      "id": "BK20250603000310",
+      "type": "flight",
+      "flight_no": "FL103",
+      "airline": "Eastern Pacific",
+      "departure": "Mumbai",
+      "destination": "Tokyo",
+      "date": "2025-06-17",
+      "departure_time": "01:30 PM",
+      "arrival_time": "05:45 AM",
+      "price": "550",
+      "guests": "9",
+      "status": "confirmed",
+      "booking_date": "2025-06-03"
+    },
+    {
+      "id": "BK20250603000344",
+      "type": "hotel",
+      "hotel_name": "Tokyo Skyline Hotel",
+      "destination": "Tokyo",
+      "check_in": "2025-06-18",
+      "check_out": "2025-06-30",
+      "price": "195",
+      "guests": "5",
+      "status": "confirmed",
+      "booking_date": "2025-06-03"
     }
   ]
 }
